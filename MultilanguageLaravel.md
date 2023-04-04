@@ -51,6 +51,21 @@
 
             });
         ```
+        - Mon astuce 
+        ```
+            Route::redirect('/','/en');
+
+                Route::group(['prefix' => '{language}'], function (){
+
+                Route::get('/', function () {
+                    return view('welcome');
+                });
+                Route::get('/welcome', function () {
+                    return view('welcome');
+                })->name('welcome');
+
+            });
+        ```
     2. Definir une **middleware** pour inspecter et filtrer les requetes HTTP qui entrent dans l'application.
         1. `php artisan make:middleware SetLanguage`
         2. Configuration: 
