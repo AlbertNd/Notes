@@ -2,9 +2,11 @@
 
 [Documentation](https://laravel.com/docs/10.x/localization)
 
+##### Nb surout ne pas oubier de faire attention au cas de d'affichage responsive
+
 1. Création du repertoir **Lang**
     - `php artisan lan:publish`
-2. Dan sle repertoire **lang**
+2. Dans le repertoire **lang**
     1. Création du fichier **.json** de la lanque souhaité 
         - exemple : pour l'anglais **en.json**
             -   ```
@@ -17,7 +19,7 @@
         - Faire les manipulation necessaire: 
             1. Dans le fichier **config/app.php** 
                 - Si alangue par defaut est le francais 
-                    - Voir la igne 85 'loocale' => 'en' la mettre en 'fr'
+                    - Voir la ligne 85 'loocale' => 'en' la mettre en 'fr'
 3. faire un teste avec les routeur 
     -   ```
             Route::get('/test', function (){
@@ -102,6 +104,7 @@
 
                         \App\Http\Middleware\SetLanguage::class,
                     ],
+                  ]
                 ```
 5. Dans la view, le texte a traduire daoit se trouver dans `{{__('texte')}}`
     - ***NB: le textes qui ne trouve pas dans cette configuration ne vont pas apparetre à l'affichage***
