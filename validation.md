@@ -83,3 +83,4 @@
         ```
         - => regarde si on a quelque chose et si il y a pas genere le a partir du titre par exemple
             - voir [helper String](https://laravel.com/docs/10.x/helpers) pour le manipulation sur les chaines de caractere
+**NB** : la premier peut nous permettre de valider des données qui e proviennent pas forcement du request 
