@@ -109,3 +109,9 @@
         "Au lising des route elles auront les prefixe de nom general en plus de leur nom propre"
 
     ```
+6. #### Le model binding
+[Documentations](https://laravel.com/docs/10.x/routing#route-model-binding)
+    - On a la possibilité de demander à LARAVEL de prerecuperer les informations lorsqu'on a une route spécifique
+    - LARAVEL a la capacité que lorsqu'il voit un parametre qui correspond a un model de se dire que lorsque on lui demande ce paramettre ce qu'il doit trouver un model qui a un parametre qui correspond à ce qui est passé
+        - Ce qui permet de pas utiliser la fonction **findOrFail()** car directement, dans la cas d'un id on peut reperer l'article qui correspond
+            - Si c'est un qui n'existe pas il retourn un **failed**
