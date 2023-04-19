@@ -74,11 +74,11 @@
         ```
     3. le message de succes dans la view:
         ```
-            @if(session('succes'))
+            @if(session('success'))
              <div class="alert">
                 {{session('success')}}
             </div>
-            @enif     
+            @endif     
         ```
 7. #### Mise en place d'un sisteme de validation des données 
     1. `php artisan make:request nom_de_la_request`
