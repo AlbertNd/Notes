@@ -48,58 +48,69 @@
             - **NB** ***Bien mettre dans la bonne vieu***
     
 
-1. Cas de creation des catégories 
-    1. Creation du model et le migration des categories 
-        - `php artisan make:modle nom_du_model -m`
-    2. se rendre dans la migration 
-        - On rajoute un champs dans la table pour le nom des catégories **NomCategorie**
-2. Associations des categorie aux article. *(On part du principe ou un article ne peut avoir qu'une seule catégorie)*
-    - On est dans une relation ***1-N*** 
-        - **Il faut une clef etrangere dans la table des article = Catégorie_id**
-    1. ***Partant du principe ou la table article à deja ete créee, il faut modifier la table article***
-        - Ceci peut etre fait dans la migration de la Catégorie `schema::table(...)`
+2. La table Categorie 
+    1. model et migration
+        - Dans la migration on ajouter la colonnes du nom des categories
+        - Dans cette meme migration : Creation de la clef etrangere et ses contraintes dans la table des utilisateur ***(Bien verifier l'annatation de la table  dans la base de donnée)***
+            -   ```
+                    Schema::table('utilisateur', function(Blueprint $table)){
+                        $table -> foreignIdFor(Categorie::class)->constrained()->cascadeOnDelete();
+                    }
+                ```
+            - on peut mettre un fonction de suppression pour au cas ou il y a n rollback à faire *(mais ca donne a chaque fois des erreurs donc c'est a revoir)*
+                - Dans la fonction **down()** juste en dessus de celle qui supprime la table catégorie
+                ```
+                    Schema::table('utilisateur', function(Blueprint $table){
+                        $table -> dropForeignIdFor(Categorie::class);
+                     });
+                ```
+        - Dans le model, on rend la variable `protected $fillable =['...'];`
+        - Dans  **le model de la table utilisateur** ajout d'une fonction belogsTo() 
+            - Juste en dessous de la protectd $fillable 
+                ```
+                    public function Categorie(){
+                        return $this->belongsTo(le model categorie ::class);
+                    }
+                ```
+        - On lance la migration. 
+            - **NB** *il y aura probablement des erreur lier au relation dans la base de donnée. soit suivre les instruction soit supprimer les table et relancer (j'ai fit un roll back qui a effacer la table utilisateur ensuite j'ai efface celle de de categorie et ai relance la migration)*
+        - Vérifier si la clef etrengere à bien ete créer dans la table utilisateur
+    2. Insertion des catégories dans la table de categories 
+        - Dans le controller, prendre une fonction qui renvois a une view et de preference celle qui sort la liste des utilisateur et mettre temporairement la fonction creat du model Categorie
         ```
-            schema::create('categorie',function(Blueprint $table){
-                ....
-            });
-
-            schema::table('article', function(Blueprint $table){
-                $table -> dropForeignIdFor(\App\Models\Categories::class)->contrained()->cascadeOnDelete();
-            })
-            .
-            .
-            .
-            public function down(): void
-            {
-                schema:: .......('categorie');
-
-                schema::table('articles', function(bleuprint $table){
-                    $table -> dropForeignIdFor(\App\Models\Categories::class);
-                });
-            }
+            le model :: create([
+                'NomCategorie' => 'Chauffeurs'
+            ]);
+            le model :: create([
+                'NomCategorie' => 'Autres'
+            ]);
+        ``` 
+    3. se rendre sur le lien pour lancer la fonction et aller verifier dans la table categorie de la base de donnée si l'insertion est bien ok *(si ok on commanter les fonction de creation car on risque d'en avoir besoin)*
+    4. Dans le fichier request , rendre la colonne categorie_id fillable et lui attribuer une regles de telle sorte que elle soit requise et de plus il faut sont id exiter dans la table categorie
+        - `'categorie_id' => ['required','exists:categories,id']` 
+    5. Dans le model Utilisateur mettre rajouter la conne categorie_id dans les fillable.
+    6. Appel aux id de la table categorie dans la selection du formulaire
+        - Dans la fonction affichage du fomulaire, faire introduire les id et le Nom de categorie 
         ```
-        - La fonction `schema::table(...)` permet de recuperer une table et de la mofier elle prend les meme paramettre que celle de la fonction ***create()*** au dessus mais avec le nom de la table souhaité
-        - La fonction `foreignIdFor()` en lui passant le model, va permettre de rajouter une clef etranger dans la tables des articles, on lui rajoute une contrainte ***constrained()*** et ***cascadeOnDelete()*** 
-    2. Création des categorie 
-        - Dans le controller general
-            - 
-    3. On lance la migration 
-        - Faire un **rollback** si on a deja des choses dans la table articles ou alors se rendre dans la base de donnée et supprimer tout puis relance la migrations
-            - *Ou rajouter une fonction ***nullable()*** pour affirmer que les article deja present n'ont pas besoin d'avoir des categorie* 
-    4. Verification dans la base de donnée pour voir si tout est bon 
-        1. Rendre le champs categorie fillable
-            - Se rendre dans le model ctegorie 
-                -  `$fillable = ['NomCategorie']`
-        2. Au niveau du model Article (Pour pouvoir recuperer la categorie associer à l'article)
-            - Creation d'une fonction qui return la fonction ***belongsTo()*** permattant de dire que l'article appartien à une categorie et en paramettre on met le model de la categorie 
-            ```
-                public function categories(){
-                    return $this-> belongsTo(\App\Models\categorie::class);
-                }
-            ```
-            - Si le nommage est propre laravel devinera directement la clef etrangere et les autre informations 
-            - Pour tester la recueration de la categorie 
-            ```
-                $article = Article :: find(1);
-                dd($article-> categorie->NomCategorie);
-            ```
+            return view('la view',[
+                'Utilisateur' => Categorie::select('id','NomCategorie')->get()
+            ]);
+        ``` 
+    7. Dans la view à la section des selecte 
+    ```
+        <select name="categories_id" id="">
+
+                <option value="">Choisissez votre status</option>
+                
+                    @foreach($Utilisateur as $utilisateur)
+                    
+                        <option value="{{$utilisateur -> id}}"> 
+                            
+                            {{$utilisateur -> NomCategorie}}
+                        
+                        </option>
+                    
+                    @endforeach
+
+        </select>
+    ```
