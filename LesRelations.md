@@ -2,6 +2,52 @@
 
 [Documentation](https://laravel.com/docs/5.4/eloquent-relationships)
 
+#### Le cas 
+```
+    On part du principe ou il y a une tables utilisateurs et ensuite une table catégories 
+        - On a deux categories : Chauffeurs et Autres 
+        - un utilisateur ne peut apartenir que a une catégories 
+            => C'est une relation "one to many" (Càd un catégorie peut avoir plusieurs utilisateurs si Catégorie chaffeur plusieurs chauffeur et si categorie autre plusieur utilisateur autre)
+                => Il faut donc une clef etrangere dans la table utilisateur
+```
+1. Table utilisateur
+    1. Formulaire de la table
+        - @csrf
+        - message erreur
+        - boucle (voir plus loin dans dans les notes)
+    2. Connection database
+    3. model et migration
+        - Dans la migration de la table vaut mieux ne pas mettre la colonne que l'on souhaite avoir comme clef etrengere
+        - Dans le model on `protectd $fillable = ['les colonnes']` (pas oublier de rendre fillable celle de la table catégorie une fois qu'elle sera créer)
+    4. fichier request et validation
+        - `php artisan make:request UtilisateurReq` (attention au choi du nom pour ne pas se melanger apres)
+        - dans le fichier 
+            - ***return true***
+            - Les regles de validation (pas oublier de mettre une regle pour la colonne de la table categorie par apres)
+    5. Controller et fonction
+        - Fonction d'affichge de la view
+        - Fonction de stockage des données (avec la redirection)
+            - avec l'argument de la classe request
+            - un dd() pour voir le retour (en fonction de l'avancement on le met en commentaire)
+            - appel du model et de sa fonction create() pour enregistre les données dans la base de donnée 
+                - `$variable = Utilisateur(c'est le model)::create($request ->validated());` 
+            - la redirection 
+                - `return redirect()->route('.....')->with('success',"le message en cas de success");
+        - retour dans le formulaire pour l'affichage des message de succes et d'erreur en fonction des regles de validation; 
+            - success : `@if(session('success')) {{session('success')}} @endif`
+            - erreur : `@error('nom de l'input') {{$message}} @enderror`
+    6. Les routes 
+        - Route d'affichage ***get()***
+        - Route de stockage ***post()***
+    7. Test de l'insertion, si message success ok voir dans la base de donnée
+    8. Affichage des données dans la view 
+        - dans la fonction d'affichage `return view('la view',['Utilisateur' => le model::all()]);`
+            - all() : pour tous les données 
+            - select('...','...')->get() : pour spécifier les donnée souhaité
+        - dans la view `@foreach($Utilisateur as $utilisateur) {{ $utilisateur -> nom de la colonne}} @endforeach`
+            - **NB** ***Bien mettre dans la bonne vieu***
+    
+
 1. Cas de creation des catégories 
     1. Creation du model et le migration des categories 
         - `php artisan make:modle nom_du_model -m`
@@ -34,10 +80,13 @@
         ```
         - La fonction `schema::table(...)` permet de recuperer une table et de la mofier elle prend les meme paramettre que celle de la fonction ***create()*** au dessus mais avec le nom de la table souhaité
         - La fonction `foreignIdFor()` en lui passant le model, va permettre de rajouter une clef etranger dans la tables des articles, on lui rajoute une contrainte ***constrained()*** et ***cascadeOnDelete()*** 
-    2. On lance la migration 
+    2. Création des categorie 
+        - Dans le controller general
+            - 
+    3. On lance la migration 
         - Faire un **rollback** si on a deja des choses dans la table articles ou alors se rendre dans la base de donnée et supprimer tout puis relance la migrations
             - *Ou rajouter une fonction ***nullable()*** pour affirmer que les article deja present n'ont pas besoin d'avoir des categorie* 
-    3. Verification dans la base de donnée pour voir si tout est bon 
+    4. Verification dans la base de donnée pour voir si tout est bon 
         1. Rendre le champs categorie fillable
             - Se rendre dans le model ctegorie 
                 -  `$fillable = ['NomCategorie']`
