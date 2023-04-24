@@ -177,5 +177,12 @@
     1. Voir dans kernel pour un appercu 
         - Plus bas il y a des midellware avec des alias ***protected $middlewareAlias = [ ...]*** que l'on peut activer si on le souhaite
             - ***auth*** qui permet de dire que l'utilisateur doit etre identifier pour acceder à une certaine requete
-            - ***guest*** : il faut que l'utilisateur ne soit pas connecté
-        
+            - ***guest*** : il faut que l'utilisateur ne soit pas connecté, et aussi si tu es connecter tu peux par exemple ne pas revoir le formulaire de conncetion ....
+    2. Dans les route 
+        - on rajoute la fonction middleware avec en argument l'alias 
+            - `.... -> name('...')-> middleware('auth');`
+    3. **Attention** ***en cas d'autentification Ne pas oublier de changer la route dans **Authentificat**  du middelware et changer en y mettant le nom donnée a la route d'autentification***
+        1. dossier kernel
+        2. Alias middleware : ***auth*** 
+        3. ctrl + click sur *Authentificate*
+        - `return $request -> expectsJson()? null : route('login');` 
