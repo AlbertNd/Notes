@@ -1,5 +1,7 @@
 # Authentification
 
+[Documentation](https://laravel.com/docs/10.x/authentication)
+
 1. Lorsqu'on installe LARAVEL, il vient avec un systeme d'utilisateur deja preconfigurer.
     1. Pour le model et la migration   
         - Les models : **User**
@@ -185,4 +187,11 @@
         1. dossier kernel
         2. Alias middleware : ***auth*** 
         3. ctrl + click sur *Authentificate*
-        - `return $request -> expectsJson()? null : route('login');` 
+        - `return $request -> expectsJson()? null : route('auth.login');` 
+6. creation du formulaire d'inscription 
+    - En utilisant le model et la migration user
+    - Validation des info dans un request 
+7. [Voir documentation sur les starterKit](https://laravel.com/docs/10.x/authentication#starter-kits)
+    - Confirmation par email 
+    - Rappel de mon de pass 
+    - ....
