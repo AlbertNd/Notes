@@ -1,9 +1,9 @@
 # Création d'un systeme de QCM 
 
 1. Il faut au moins 5 table :
-    1. **La table des sujets ou des catégories** 
-        - Un sujet, et le parent des qustions, il peut avoir plusieurs questions *(Les enfants)* 
-        - une question ne peut pas etre dans plusieurs sujets 
+    1. **La table des chapitre** 
+        - Un chapitre, et le parent des qustions, il peut avoir plusieurs questions *(Les enfants)* 
+        - une question ne peut pas etre dans plusieurs chapitre 
         1. **Relation One-To-Many** Avec la table questions 
             1. Dans la table parent *(table sujet ou catégories)*
                 - Appel de la fonction question et qui retourne la methode ***hasMany***
