@@ -81,10 +81,10 @@
             - Une migration de creation de la **table user** 
                 - Avec differents champs lié à un systeme d'authentification (nom, mail, mot de pass)
         - **NB :** *Il y a donc rien à faire en terme de model et de migration*
-9. Création de la migration dans la base de donnée 
+9. Migration de la table dans la base de donnée 
     - *(Le hashage du mot de passe se fera au monde l'enregistrement dans la db via le fonction du controlleur)*
     - `php artisan migrate`
-9. Création qu requestion our les informations du formulaire d'inscription 
+10. Création du request pour les informations du formulaire d'inscription 
     - `php artisan make:request AuthentificationRequest`
         - Dans le request
             1. La fonction ***authorize():*** *return true* 
@@ -102,24 +102,19 @@
                         ];
                     }
             ```
-
-
-
-
-
-
-10. Configuration de l'enregistrement de l'utilisateur dans la db  
+11. Configuration de l'enregistrement de l'utilisateur dans la db  
     1. Dans le controlleur Authetification 
         1. la fonction CreationUtilisateur() 
             - un petit **dd($request)** pour le test de reception des requetes 
             - appel au request et insertion dans la db 
+                - **Attention: la fonction c'est create([...]) et non created([...])**
             - ***Sans oublies de hasher le passe word sinon l'appel des données ne passe pas***
             - rediriger vers le lapage souhaité avec un message de succé 
             ```
                 public function CreationUtilisateur(AuthentificationRequest $request){
                     //dd($request);
 
-                    User::created([
+                    User::create([
                         'name' => $request -> name,
                         'email' => $request -> email,
                         'password' => Hash::make($request-> password)
@@ -130,6 +125,7 @@
             ```
     2. Dans le web.php 
         1. La route **post** pour recuperer les donner du formulaire
+            - `Route::post('/inscription',[Authentification::class,'la_fonction_d'enregistrement]);`
 
 
 
