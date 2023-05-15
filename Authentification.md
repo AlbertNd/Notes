@@ -107,8 +107,12 @@
         1. la fonction CreationUtilisateur() 
             - un petit **dd($request)** pour le test de reception des requetes 
             - appel au request et insertion dans la db 
+            - Utilisation de la User pour la création de l'utilisateur 
                 - **Attention: la fonction c'est create([...]) et non created([...])**
             - ***Sans oublies de hasher le passe word sinon l'appel des données ne passe pas***
+                - ***Hash::make()*** 
+                    - La class **Hash** provient du name space ***Illuminete\support\Facades***
+                    - La methode **make()** prend en argument une valeur qui va genere un hash qui correspond
             - rediriger vers le lapage souhaité avec un message de succé 
             ```
                 public function CreationUtilisateur(AuthentificationRequest $request){
@@ -142,22 +146,9 @@
 
 
 
-2. Création du pemier utilisateur
-    1. Dans le controller
-        - Créer un utilisateur dans une fonction qui mene sur une des pages *(page d'acceuil)*
-            - On va utiliser le model ***User*** et demander de creer un nouvel utilisateur
-            ```
-                public function AfficherPage(){
-                    User::create([
-                        'name' => 'albert',
-                        'email' => 'albert@gmail.com'
-                        'password' => Hash::make('mot_de_pass')
-                    ])
 
-                    return view('la_view_de_la_page');
-                }
-            ```
-            - ***Hash::make()*** : Le mot de passe doit etre hashé, càd qu'on ne doit pas mettre le mot de passe dans la base de donnée telle quel ar ca represente un probleme en terme de securité
+  
+         
                 - La class **Hash** provient du name space ***Illuminete\support\Facades***
                 - La methode **make()** prend en argument une valeur qui va genere un hash qui correspond
         - On reactualise la page de la wiew et l'utilisateur devrait etre créer dans la base de donnée
