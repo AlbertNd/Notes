@@ -5,7 +5,7 @@
 
 2. **S'authentifier avec un compte créer**
     - *(Il est important d'etre autentifier avant de commencer la canfiguration de stripe)*
-3. **Connection au compte stripe**
+3. **Connection au compte [stripe](https://stripe.com/fr-be)**
     1. Création d'un produit
         - Produit => ajouter un produit 
             - configuration du produit 
