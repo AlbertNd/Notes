@@ -44,18 +44,38 @@
                 <div class="">
                     <label for="nam">Nom</label> <br>
                     <input type="text" name="name" id="" class="border border-gray-300">
+                    <div>
+                        @error('name')
+                        {{message}}
+                        @enderror
+                    </div>
                 </div>
                 <div>
                     <label for="email">Email</label> <br>
                     <input type="email" name="email" id="" class="border border-gray-300">
+                    <div>
+                        @error('email')
+                        {{message}}
+                        @enderror
+                    </div>
                 </div>
                 <div>
                     <label for="password"> password</label> <br>
                     <input type="password" name="" id="" class="border border-gray-300">
+                    <div>
+                        @error('password')
+                        {{message}}
+                        @enderror
+                    </div>
                 </div>
                 <div>
                     <label for="password"> confirm password</label> <br>
                     <input type="password" name="password_confirmation" id="" class="border border-gray-300">
+                    <div>
+                        @error('password')
+                        {{message}}
+                        @enderror
+                    </div>
                 </div>
                 <div class="m-3 flex justify-center">
                     <button class="px-2 py-2 w-full bg-teal-800 hover:bg-teal-700 rounded text-white">
