@@ -119,8 +119,8 @@
                     {
                         return [
                             'name' => 'required',
-                            'email' => 'required|unique:users,email',
-                            'password' => 'required|confirmed|min:6',
+                            'email' => 'required|email|unique:users,email',
+                            'password' => 'required|confirmed|min:6'
 
                         ];
                     }
