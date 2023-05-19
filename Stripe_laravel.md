@@ -59,6 +59,7 @@
                 2. definition de la clef secrete de Strip *(mettre dans le fichier .env)*
                 3. Definir le type de l'entete *(Voir comment le faire avec laravel)*
                 4. Definition du domaine *(mettre dans le fichier .env)*
+                5. Définition du prix *(mettre dans le fichier .env)*
                 5. Création de la session checkout
                     - *Voir les arguments à configurer et comment en fonction des besoins*
                 6. Rediriger vers l'url de paiement. 
@@ -73,10 +74,12 @@
 
                 $Domaine = env('DOMAIN');
 
+                $prix = en('Prix');
+
                 $checkout_session = \Stripe\Checkout\Session::create([
                     'line_items' => [[
                         # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-                        'price' => 'price_1N8pbVK1WbMuURXh25GpliN6',
+                        'price' => $prix,
                         'quantity' => 1,
                     ]],
                     'mode' => 'payment',
