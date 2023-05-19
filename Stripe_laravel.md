@@ -108,6 +108,15 @@
         - `Route::get('/success',[StripeController::class,'succeTransaction'])->name('success');`
         - `Route::get('/cancel',[StripeController::class,'cancelTransaction'])->name('cancel');`
 6. **Configuration du webhook**
+    1. Creation de la route 
+        - `Route::post('/webhook',[StripeController::class,'webhook']);`
+    2. ***Desactiver la verification du*** **csrf** ***le liens*** **/webhook**
+        1. Dans le fichier ***app\Http\Middleware\VerifyCsrfToken.php***
+        ```
+            protected $except = [
+                /webhook
+            ];
+        ```
     1. Developpeurs 
         - webhooks
             - Ajouter un endpoint ou si deja une on ajouter un écouteur local 
