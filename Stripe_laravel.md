@@ -6,7 +6,7 @@
 2. **S'authentifier avec un compte créer**
     - *(Il est important d'etre autentifier avant de commencer la canfiguration de stripe)*
 3. **Connection au compte [stripe](https://stripe.com/fr-be)**
-    1. Création d'un produit
+    1. Création d'un produit ***(Se mettre en mode test)***
         - Produit => ajouter un produit 
             - configuration du produit 
     2. [Sur la page d'**Accueil**](https://dashboard.stripe.com/test/dashboard) 
