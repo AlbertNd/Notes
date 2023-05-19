@@ -52,7 +52,7 @@
                 </div>
                 @endsection
             ```
-        2. Création d'une fonction ***postStrip()***
+        2. Création d'une fonction ***postStripe()***
             - les arguments de la fonction `(Request $request)`
             - le contenu de la fonction
                 1. appel au fichier ***autoload.php***
@@ -99,3 +99,12 @@
         4. Création d'une fonction ***TransactionCancel()***
             - Elle retourne une view avec un message de transaction annuler
                 - *voir ptre comment l'ameliorer* 
+5. creation des routes 
+    1. affichage de des produit 
+        - `Route::get('/produit',[StripeController::class,'AfficheProduit'])->name('produit');`
+    2. recuperation des infos du produit 
+        - `Route::post('/produit',[StripeController::class,'postStripe']);`
+    3. affiche de message de succes ou d'annulation 
+        - `Route::get('/success',[StripeController::class,'succeTransaction'])->name('success');`
+        - `Route::get('/cancel',[StripeController::class,'cancelTransaction'])->name('cancel');`
+6. **Configuration du webhook**
