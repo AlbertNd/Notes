@@ -108,3 +108,8 @@
         - `Route::get('/success',[StripeController::class,'succeTransaction'])->name('success');`
         - `Route::get('/cancel',[StripeController::class,'cancelTransaction'])->name('cancel');`
 6. **Configuration du webhook**
+    1. Developpeurs 
+        - webhooks
+            - Ajouter un endpoint ou si deja une on ajouter un écouteur local 
+    2. Suivre la procedure 
+        - pas ou blier que avec **Linux** : ***./stripe login*** 
