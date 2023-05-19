@@ -15,7 +15,7 @@
         1. Stripe Checkout UI
             - [Démarrage rapide](https://stripe.com/docs/checkout/quickstart)
 4. **Configuration du serveur** 
-    1. `composer require stripe/strip-php`
+    1. `composer require stripe/stripe-php`
         - Vérification dans le fichier `composer.json`
             - `"stripe/stripe-php": "^10.13"`
     2. Création d'un controller StripeController
