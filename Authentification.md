@@ -28,7 +28,7 @@
 ```
 5. #### Le fomuaire d'inscription 
     - Au mieux faire une extention de la view de base (pour eviter d'avoir un code trop long)
-        - *le name de la confirmation du mot de pass* **password-confirmation**
+        - *le name de la confirmation du mot de pass* **password_confirmation**
 ```
     <div class="container mx-auto flex justify-center p-10">
         <div>
@@ -289,38 +289,36 @@
         - Les directives inverse **@guest** ... **@endguest** vérifier un utilisateur qui n'est pas connecté
     ```
         <div>
-            <div class="w-full grid justify-items-end bg-red-500">
-                <ul class="flex space-x-4 p-5">
-                    @auth
-                    <li>
-                        {{\Illuminate\Support\Facades\Auth::user()->name}}
-                    </li>
-                    @endauth
-                    @guest
-                    <li>
-                        <a href="{{route('connection')}}">
-                            connection
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{route('inscription')}}">
-                            inscription
-                        </a>
-                    </li>
-                    @endguest
-                    @auth
-                        <form action="{{ route('deconnection')}}" method="post">
-                        
-                            @method('delete')
+            <div class="container mx-auto">
+                <div class="flex w-full bg-teal-800">
+                    <div class="w-full p-5 text-white">
+                        <a href="/">Home</a>
+                    </div>
+                    <div class="w-full">
+                        <ul class="flex justify-end space-x-4 p-5  w-full">
+                            @guest
+                            <li class="hover:text-white"><a href="{{route('connection')}}">Conection</a></li>
+                            <li class="hover:text-white"><a href="{{route('inscription')}}">Inscription</a></li>
+                            @endguest
+                            @auth
+                            <li>
+                                {{\Illuminate\Support\Facades\Auth::user()->name}}
+                            </li>
+                            <li class="hover:text-white">
+                                <form action="{{ route('deconnection')}}" method="post">
 
-                            @csrf
-                            
-                            <button> se deconnecter </button>
-                        
-                        </form>
-                    @endauth
+                                    @method('delete')
 
-                </ul>
+                                    @csrf
+
+                                    <button> se deconnecter </button>
+
+                                </form>
+                            </li>
+                            @endauth
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     ```
