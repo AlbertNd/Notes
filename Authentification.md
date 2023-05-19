@@ -46,7 +46,7 @@
                     <input type="text" name="name" id="" class="border border-gray-300">
                     <div>
                         @error('name')
-                        {{message}}
+                        {{$message}}
                         @enderror
                     </div>
                 </div>
@@ -55,16 +55,16 @@
                     <input type="email" name="email" id="" class="border border-gray-300">
                     <div>
                         @error('email')
-                        {{message}}
+                        {{$message}}
                         @enderror
                     </div>
                 </div>
                 <div>
                     <label for="password"> password</label> <br>
-                    <input type="password" name="" id="" class="border border-gray-300">
+                    <input type="password" name="password" id="" class="border border-gray-300">
                     <div>
                         @error('password')
-                        {{message}}
+                        {{$message}}
                         @enderror
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                     <input type="password" name="password_confirmation" id="" class="border border-gray-300">
                     <div>
                         @error('password')
-                        {{message}}
+                        {{$message}}
                         @enderror
                     </div>
                 </div>
