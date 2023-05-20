@@ -26,7 +26,7 @@
                 - le prix definis dans la création du produit dans strip 
                 - un formulaire 
                     - method ="post"
-                    - @csrf 
+                    - **@csrf** *(à ne sourtout pas oublier)*
                     - boutton submit
             ```
                 @extends('welcome')
@@ -108,7 +108,10 @@
         - `Route::get('/success',[StripeController::class,'succeTransaction'])->name('success');`
         - `Route::get('/cancel',[StripeController::class,'cancelTransaction'])->name('cancel');`
 6. **Configuration du webhook**
-    1. Creation de la route 
+    1. Dans le controller 
+        - Création d'une fonction ***webhok()***
+            - *(à ce stade elle est vide, car elle va permettre d'alimenter une table de la db, elle sert juste de test)*
+    2. Creation de la route 
         - `Route::post('/webhook',[StripeController::class,'webhook']);`
     2. ***Desactiver la verification du*** **csrf** ***le liens*** **/webhook**
         1. Dans le fichier ***app\Http\Middleware\VerifyCsrfToken.php***
@@ -117,8 +120,34 @@
                 /webhook
             ];
         ```
-    1. Developpeurs 
+    3. Developpeurs 
         - webhooks
-            - Ajouter un endpoint ou si deja une on ajouter un écouteur local 
-    2. Suivre la procedure 
-        - pas ou blier que avec **Linux** : ***./stripe login*** 
+            - *Ajouter un endpoint ou si deja une on ajouter un écouteur local* 
+        - Click sur Telecharger l'interface de commande 
+            - Choix du moteur d'exploitation 
+                - Pour ma part **linux** 
+                    1. telechargement du lien et decopression `tar -xvf le_fichier`
+                    2. Aller dans le fichier decompressé et ***./stripe login***
+                        - `Press Enter to open the browser or visit https://dashboard.stripe.com/stripecli/confirm_auth?t=JEM4KyWiS0CGMGYaFKooHitEMdY9p816 (^C to quit)` 
+                    3. Click sur enter 
+                        - Une page web va s'ouvrir avec un message d'authorisation *on autorise l'accès*
+                            - Verifier si ce type de code `relish-dazzle-awe-aver` sur la page correspond a celui qui est dans l'invité de commande
+                                - si oui : *on autorise l'accès* 
+                        - Dans le terminal : `Done! The Stripe CLI is configured for artbeltrans.be with account id acct_1N71ORK1WbMuURXh` *(avec un id du compte)* et le message ci dessous:
+                            - `Please note: this key will expire after 90 days, at which point you'll need to re-authenticate.`
+    4. Transferer les evenements au webhook 
+        - Dans l'invité de commande dans le dossier de telechargement il y a toujours le decompresse de stripe: 
+            - En fonction de notre ecouteur local et du lien webhook:
+                - `./stripe listen --forward-to localhost:8000/webhook`
+                - Click enter 
+                    - la signature secrete: `> Ready! You are using Stripe API Version [2022-11-15]. Your webhook signing secret is whsec_be4ced880ec7a0db0a35f61984b97e3fdd47108589ddcc484320a42aecc7a6c4 (^C to quit)`
+                        - *on aura besoin de cette clef de signature*
+                    - Vérifier dans stripe si c'est au vert 
+    5. Le declencheur d'evenement: 
+        - Copier `stripe trigger payment_intent.succeeded`
+        - Au mieux: 
+            - Ouvrir une autre terminal et se rendre dans le dossier de decompression 
+        - dans le nouvel terminal:
+            - `./stripe trigger payment_intent.succeeded`
+            - Click Enter 
+                - Aller voir l'output sur l'autre terminal *(parfois il faut clicker sur Enter)*
