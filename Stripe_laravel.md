@@ -151,3 +151,57 @@
             - `./stripe trigger payment_intent.succeeded`
             - Click Enter 
                 - Aller voir l'output sur l'autre terminal *(parfois il faut clicker sur Enter)*
+7. Recuperation des données de retour et stockage dans la db 
+    1. Creation de la table de recupération des données dans la db 
+        - Les champs que je trouve utiles:
+            1. **id_stripe** *Il s'agit de l'id de l'object*
+            2. **nom**
+            3. **email**
+            4. **montant**
+            5. **devise**
+            6. **type**
+        - création du model de la table et de sa migration 
+            - `php artisan make:model stripeData -m`
+        - Dansla migration 
+        ```
+             public function up(): void
+                {
+                    Schema::create('stripe_data', function (Blueprint $table) {
+                        $table->id();
+                        $table->string('id_stripe'); 
+                        $table->string('nom');
+                        $table->string('email');
+                        $table->integer('montant');
+                        $table->string('devise');
+                        $table->string('type');
+                        $table->timestamps();
+                    });
+                }
+        ```
+        - Dans le model
+        - Dans la methode webhook() du controller 
+            - Appel du des request
+            - Condition de vérification du type **payment_intent.created** *(Etant donnée que c'est celle qu'il crée en dernier)*
+            - un ***try{}*** and ***catch(\Exeption $e){ return $e->getMessage();}*** 
+        ```
+             public function webhook(Request $request){
+                if($request -> type === 'payment_intent.created'){
+                    try{
+
+                        stripeData::create([
+                        'id_stripe' => $request -> data['object']['id'],
+                        'nom' => $request -> data['object']['name'],
+                        'email' => $request -> data['object']['receipt_email'],
+                        'montant' => $request -> data['object']['amount'],
+                        'devise' => $request -> data['object']['currency'],
+                        'type'=> $request -> type,
+                        ]);
+
+                    }catch(\Exception $e){
+                        return $e->getMessage();
+                    }
+                }
+
+                return 'ok';
+            }
+        ```
