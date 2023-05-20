@@ -69,4 +69,55 @@
 
 3. L'affichage des produit dans une view 
     1. Dans le ***ProduitController()*** 
-    
+        ```
+            public function AfficheProduit(){
+                $produits = Produit::all();
+
+                return view('Produits.Articles',compact('produits'));
+            }
+        ```
+    2. Dans la view 
+        ```
+            @extends('welcome')
+            @section('Articles')
+
+            <div class="container mx-auto p-10">
+                <div class="flex space-x-8">
+                    @foreach($produits as $produit)
+                    <div>
+                        <img src="{{$produit->image}}" alt="">
+                        <h5 class="font-light text-lg">{{ $produit->nom}}</h5>
+                        <p>
+                            {{$produit -> prix}}
+                        </p>
+                    </div>
+                    @endforeach
+                </div>
+                <div>
+                    <form action="{{route('checkout')}}" method="post">
+                        @csrf
+                        <button class="px-2 py2 border border-gray-300">Checkout</button>
+                    </form>
+                </div>
+            </div>
+
+            @endsection
+        ```
+    3. La route pour l'etendrela view dans la view de base 
+        - `Route::get('/',[ProduitController::class,'AfficheProduit']);`
+    4. On check si tout fonctionne bien dans le view principale 
+
+4. Creation du checkout 
+    - Dans le ***ProduitController()*** 
+        1. la fonction  ***checkout()***
+            - L'acces à cette fonction doit etre une methode **post**
+            - la route : `Route::post('/checkout',[[ProduitController::class,'checkout'])->name('checkout');`
+        2. La generation de la session Stripe
+            1. Installation du package Stripe 
+                - `composer require stripe/stripe-php`
+                    - Vérification dans le fichier `composer.json`
+        3. documentation strip
+            - Paiements en ligne
+                - Accepter un paiement
+                    - Dans la page *(voir Configurer Stripe)*
+        4. Récuperation de la clef secrete
