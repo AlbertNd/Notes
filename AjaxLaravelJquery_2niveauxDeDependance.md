@@ -210,6 +210,94 @@
             })
         });
     ```
+**Suite** 
 
+Pour une liste dependant d'une liste 
+
+```
+    @extends('welcome')
+
+    @section('recherche')
+
+    <div class="container mx-auto p-5">
+        <form>
+            @csrf
+            <div>
+
+                <!--La liste des pays -->
+                <div class="w-full">
+                    <select id="selectPays" name="selectPays" class="w-full p-2 bg-white border border-gray-300">
+                        @foreach($pays as $lepays)
+                        <option value="{{$lepays -> id}}">{{$lepays->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <!-- le tableau d'affichage des villles -->
+                <div>
+                    <select id="tableVille" class="hidden w-full p-2 bg-white border border-gray-300"></select>
+                </div>
+                <!-- Le boutton de recherche -->
+                <button id="recherche" class="m-3 px-2 py-2 text-white border border-gray-300 bg-green-500 hover:bg-green-600 rounded">Rechercher les villes du pays</button>
+                
+            </div>
+        </form>
+    </div>
+    @endsection
+```
+```
+$(function(){
+    // création d'evenement click pour le boutton recherche 
+    $(document).on('click','#recherche', function(event){
+        //Eviter le rafrechissement de la table 
+        event.preventDefault();
+
+        //stockage des valeur de du select 
+
+        var selectPays = $('#selectPays').val();
+
+        // recuperation de la valeur du token csrf
+
+        var _token = $('input[type="hidden"]').attr('value');
+
+        // appele de la requete AJAX 
+
+        $.ajax({
+            //L'url sous le format des name route laravel 
+            uploadUrl : "{{route('rechercheData')}}",
+            // Recuperation des donnée du select 
+            data:{
+                selectPays,
+                // le token 
+                _token
+            },
+            // la forme de sorties des données 
+            dataType : "json",
+            // la methode 
+            method : "POST",
+            // la fonction en cas de succes de la requette AJAX
+            success : function(data){
+                // Le petit console log pour vérifier si tout est bon 
+                //console.log(data);
+                // prealablement penser a vider la liste des villes a chaque requet sinon on a des listes qui ne s'effacent pas apres chaque action du boutton recherche 
+                $('#tableVille').html('');
+                // l'affichage du tableau des villes qui est masque par defaut 
+                $('#tableVille').removeClass('hidden');
+
+                // ajout de l'option active 
+
+                $('#tableVille').html('<option value="" selected>Choose city</option>')
+                // Boucle sur les données pour la table 
+                for (let i = 0; i < data.length; i++) {
+                    // ajouts des balises (pas oublier le nom de la colone souhaité : name "pour le nom des villes")
+                    $('#tableVille').append('<option value="'+data[i].id+'">'+data[i].name+'</option>')
+                }
+            }
+        })
+    })
+
+
+
+});
+```
 
 
