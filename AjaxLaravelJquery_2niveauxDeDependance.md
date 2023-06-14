@@ -127,9 +127,10 @@
         - Il faut recuperer l'ID du pays en liens avec  
     ```
         public function RecuperationVille(Request $request){
-            $ville =Ville::where('pays_id',$request->selectPays)-> get();
-            return $ville;
+            $ville =Ville::where('pays_id',$request->selectPays)->get();
+            return json_decode($ville);
         }
+
     ```
     2. **La route pour les villes (post)** 
     `Route::post('/recherche',[VilleController::class,'RecuperationVille'])->name('rechercheData');`
