@@ -2,6 +2,8 @@
 
 [Documentation](https://laravel.com/docs/10.x/localization)
 
+[Fichier des langues](https://github.com/jeroennoten/Laravel-lang/tree/master/fr)
+
 ##### Nb surout ne pas oubier de faire attention au cas de d'affichage responsive
 
 1. Création du repertoir **Lang**
